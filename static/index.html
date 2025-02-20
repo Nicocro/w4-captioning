@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Captioning</title>
+    <style>
+      body {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      #result {
+        min-height: 50px;
+      }
+      .loading {
+        color: #666;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Image Captioning</h1>
+      <input
+        type="text"
+        id="imageUrl"
+        placeholder="Enter image URL here"
+        style="padding: 10px"
+      />
+      <button onclick="generateCaption()" style="padding: 10px">
+        Generate Caption
+      </button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      async function generateCaption() {
+        const imageUrl = document.getElementById("imageUrl").value;
+        const resultDiv = document.getElementById("result");
+
+        try {
+          resultDiv.innerHTML =
+            '<span class="loading">Generating caption...</span>';
+
+          const response = await fetch("/api/generate-caption", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ url: imageUrl }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            resultDiv.innerHTML = `<p><strong>Caption:</strong> ${data.caption}</p>`;
+          } else {
+            resultDiv.innerHTML = `<p style="color: red;">Error: ${data.detail}</p>`;
+          }
+        } catch (error) {
+          resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        }
+      }
+    </script>
+  </body>
+</html>
