@@ -14,7 +14,7 @@ class FlickrModel(nn.Module):
                  clip_txt = CLIPTextModelWithProjection,
                  num_dec_blocks: int=6,    
                  d_model: int=512,
-                 n_heads: int=2,
+                 n_heads: int=1,
                  ff_hidden_ratio: int=4,
                  ):
         super().__init__()
