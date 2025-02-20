@@ -93,7 +93,7 @@ def main():
     
     # Initialize datasets and dataloaders
     train_dataset = Flickr30kDataset(split='train')
-    val_dataset = Flickr30kDataset(split='validation')
+    val_dataset = Flickr30kDataset(split='val')
     
     train_loader = DataLoader(
         train_dataset, 
