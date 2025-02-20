@@ -19,7 +19,7 @@ def load_model_from_checkpoint(checkpoint_path: str) -> FlickrModel:
         clip_txt=clip_txt,
         num_dec_blocks=6,
         d_model=512,
-        n_heads=1,
+        n_heads=4,
         ff_hidden_ratio=4
     )
     
