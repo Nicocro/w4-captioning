@@ -87,7 +87,7 @@ def main():
         clip_txt=clip_txt,
         num_dec_blocks=6,
         d_model=512,
-        n_heads=1,
+        n_heads=4,
         ff_hidden_ratio=4
     ).to(device)
     
@@ -144,6 +144,13 @@ def main():
                 'val_loss': val_loss,
             }, 'best_model.pth')
             print("Saved best model checkpoint")
+
+            artifact = wandb.Artifact(
+                    name=f"model-checkpoint-epoch-{epoch}", 
+                    type="model"
+                )
+            
+            artifact.add_file("model.pth")
 
     wandb.finish()
 
