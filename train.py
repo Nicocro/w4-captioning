@@ -136,13 +136,15 @@ def main():
         # Save best model
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            checkpoint_path = 'best_model.pth'
+
             torch.save({
                 'epoch': epoch,
                 'model_state_dict': model.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
                 'train_loss': train_loss,
                 'val_loss': val_loss,
-            }, 'best_model.pth')
+            }, checkpoint_path)
             print("Saved best model checkpoint")
 
             artifact = wandb.Artifact(
@@ -150,7 +152,8 @@ def main():
                     type="model"
                 )
             
-            artifact.add_file("model.pth")
+            artifact.add_file(checkpoint_path)
+            wandb.log_artifact(artifact)
 
     wandb.finish()
 
