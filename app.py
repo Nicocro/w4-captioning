@@ -24,7 +24,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global model
-    model_path = "best_model_1.pth"
+    model_path = "best_model_large.pth"
     model = load_model_from_checkpoint(model_path)
     model = model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
     model.eval()
