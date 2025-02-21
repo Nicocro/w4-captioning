@@ -15,9 +15,9 @@ def load_model_from_checkpoint(checkpoint_path):
         clip_processor=clip_processor,
         clip=clip,
         clip_txt=clip_txt,
-        num_dec_blocks=6,
+        num_dec_blocks=8,
         d_model=512,
-        n_heads=2,
+        n_heads=8,
         ff_hidden_ratio=4
     )
     
@@ -54,7 +54,7 @@ def main():
     print(f"Using device: {device}")
     
     # Load the model
-    checkpoint_path = 'best_model_1.pth'  # Update with your checkpoint path
+    checkpoint_path = 'best_model_large.pth'  # Update with your checkpoint path
     model = load_model_from_checkpoint(checkpoint_path)
     model = model.to(device)
     model.eval()

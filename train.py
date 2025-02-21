@@ -85,7 +85,7 @@ def main():
         clip_processor=clip_processor,
         clip=clip,
         clip_txt=clip_txt,
-        num_dec_blocks=8,
+        num_dec_blocks=12,
         d_model=512,
         n_heads=8,
         ff_hidden_ratio=4
