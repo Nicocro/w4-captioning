@@ -87,7 +87,7 @@ def main():
         clip_txt=clip_txt,
         num_dec_blocks=8,
         d_model=512,
-        n_heads=6,
+        n_heads=8,
         ff_hidden_ratio=4
     ).to(device)
     
