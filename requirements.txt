@@ -9,3 +9,5 @@ tqdm
 transformers
 uvicorn
 wandb
+openai
+dotenv
