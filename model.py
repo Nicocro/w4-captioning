@@ -89,13 +89,20 @@ class FlickrModel(nn.Module):
             embedded_image = self.clip_processor(images=image, return_tensors="pt")["pixel_values"].to(device)
             caption = [start_token_id]
 
+            temperature = 0.4
+
             for _ in range(self.max_len):
                 text_tensor = torch.tensor([caption], dtype=torch.long, device=device)
                 attention_mask = torch.ones_like(text_tensor)
                 input_dict = {"input_ids": text_tensor, "attention_mask": attention_mask, "images": embedded_image}
                 output, _ = self(input_dict)
-                next_token_id = output[0, -1].argmax().item()
+
+                scaled_logits = output[0, -1, :] / temperature #apply temperature in generation
+                probs = torch.softmax(scaled_logits, dim=0)
+                next_token_id = torch.multinomial(probs, 1).item()
+
                 caption.append(next_token_id)
+                
                 if next_token_id == end_token_id:
                     break
                 

@@ -70,10 +70,11 @@ class SelfAttention(nn.Module):
     
 
 class DecoderBlock(nn.Module):
-    def __init__(self, decoder_d_model: int=512, n_heads:int=1, ff_hidden_ratio: int=4):
+    def __init__(self, decoder_d_model: int=512, n_heads:int=1, ff_hidden_ratio: int=4, dropout: float=0.2):
         super().__init__()
         self.decoder_d_model = decoder_d_model
         self.n_heads = n_heads
+        self.dropout = nn.Dropout(dropout)
 
         self.attn1 = SelfAttention(d_model=decoder_d_model, n_heads=n_heads, causal_mask=True)
         self.norm1 = nn.LayerNorm(decoder_d_model)
@@ -82,9 +83,11 @@ class DecoderBlock(nn.Module):
 
     def forward(self, x: torch.Tensor, attention_mask: Optional[torch.Tensor] = None) -> Tuple[torch.Tensor, dict]:
         x_att1, self_attn_dict = self.attn1(x, attention_mask)
+        x_att1 = self.dropout(x_att1)
         x_norm1 = self.norm1(x + x_att1)
         
         x_ff = self.ff(x_norm1)
+        x_ff = self.dropout(x_ff)
         x_out = self.norm2(x_norm1 + x_ff)
 
         attention_info = {

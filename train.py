@@ -72,7 +72,7 @@ def main():
     # Training parameters
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_size = 32
-    epochs = 20
+    epochs = 12
     lr = 1e-4
     
     # Initialize CLIP components
@@ -85,9 +85,9 @@ def main():
         clip_processor=clip_processor,
         clip=clip,
         clip_txt=clip_txt,
-        num_dec_blocks=12,
+        num_dec_blocks=8,
         d_model=512,
-        n_heads=8,
+        n_heads=6,
         ff_hidden_ratio=4
     ).to(device)
     
@@ -110,7 +110,7 @@ def main():
     )
     
     # Initialize optimizer and criterion
-    optimizer = Adam(model.parameters(), lr=lr)
+    optimizer = Adam(model.parameters(), lr=lr, weight_decay=1e-5)
     criterion = CrossEntropyLoss()
     
     # Training loop
