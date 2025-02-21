@@ -72,7 +72,7 @@ def main():
     # Training parameters
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_size = 32
-    epochs = 5
+    epochs = 20
     lr = 1e-4
     
     # Initialize CLIP components
@@ -85,9 +85,9 @@ def main():
         clip_processor=clip_processor,
         clip=clip,
         clip_txt=clip_txt,
-        num_dec_blocks=6,
+        num_dec_blocks=12,
         d_model=512,
-        n_heads=4,
+        n_heads=8,
         ff_hidden_ratio=4
     ).to(device)
     
@@ -136,7 +136,7 @@ def main():
         # Save best model
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            checkpoint_path = 'best_model.pth'
+            checkpoint_path = 'best_model_large.pth'
 
             torch.save({
                 'epoch': epoch,
